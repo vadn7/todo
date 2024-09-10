@@ -1,1 +1,56 @@
 .hide { display: none; }
+
+.listes{
+
+display: flex;
+
+align-items: center;
+   justify-content: center; 
+margin-right: 400px;
+margin-top: 10px;
+}
+
+.listes .text, .checks{
+
+width: 300px ;
+
+}
+
+.text{
+margin-left: -2px;
+
+}
+
+.modify {
+
+margin-left: 215px;
+
+}
+
+.delete {
+    margin-left: 20px;
+}
+
+
+#search{  
+
+border-color: bisque;
+
+width: 200px;
+height: 30px;
+border-radius: 10px;
+
+}
+
+#searchContainer{
+
+    display: flex;
+
+    align-items: center;
+     
+    justify-content: center;
+
+    text-align: center;
+    margin: 0 auto;
+
+}

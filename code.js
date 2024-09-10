@@ -7,10 +7,20 @@
  * 
  */
 
- createList();
+function deleteAllLocal(){
+localStorage.clear()
+}
+
+ let list=[];
+
+getOldLists();
+
+saveOldList(list)
+
+ createNewList();
 
 
- let para = document.createElement('p')
+// let para = document.createElement('p')
  
  //let check = document.querySelectorAll('.checks')
  
@@ -28,9 +38,11 @@
 
      let parent=this.parentElement;
  
+     
 
 let inputElValue=findPhraseValue(parent);
 
+saveLocally(inputElValue);
  
  console.log(inputElValue)
  
@@ -44,22 +56,50 @@ let inputElValue=findPhraseValue(parent);
 
  if(inputElValue)
  {
+
+  console.log(parent.children);
+
+if(parent.children[1])
+ parent.children[1].remove()
+
+if(parent.children[1])
+ parent.children[1].remove()
+
+if(parent.children[1])
+ parent.children[1].remove()
+ 
+if(parent.children[1])
+    parent.children[1].remove()
+ 
+// parent.children[3].remove()
+
+//  console.log(parent.children);
+
  parent.innerHTML="";
  
+
+ console.log(parent.children);
+
+
 createCheckBox(parent)
 
 
  parent.appendChild(phrase);
  
+ 
  createBtnModify(parent);
+
+ createBtnDelete(parent);
  
  // Obtenir tous les element dans le div et prendre ce qui est dans le input
  // Remplacer tous les elements avec I
    
  
   if(!this.classList.contains("no-more-list")) 
- createList();
- 
+ createNewList();
+
+  
+
 }
  
  }
@@ -73,16 +113,74 @@ let inputElValue=inputEl.value
 return inputElValue;
 }
 
-function findPhrase(parentNode){
+ function findPhrase(parentNode){
    
-    let phraseEl=parentNode.children[1]
+    let textEl=parentNode.children[1]
+    let text=textEl.textContent;
+return text;
+}
 
-let phraseValue=phraseEl.innerText
-    
-return phraseValue;
+function saveLocally (phrase){
+
+
+list.push(phrase)
+
+localStorage.setItem( "list", JSON.stringify(list));
+}
+
+function saveOldList (lisT){
+lisT=JSON.stringify(lisT)    
+    localStorage.setItem( "list",lisT);
+    }
+
+
+function deleteLocally(phrase){
+
+const phraseJSON=JSON.stringify(phrase);
+
+localStorage.removeItem("list",phraseJSON);
+
+}
+
+function getOldLists(){
+
+let liste=[];
+
+console.log(localStorage.getItem("list"));
+
+
+if(localStorage.getItem("list"))
+{
+
+
+let listeJSON=JSON.parse(localStorage.getItem("list"));
+
+//let listJSON=JSON.parse(localStorage.getItem("list"));
+
+console.log(listeJSON);
+
+
+list=listeJSON;
+
+liste=list;
+
+console.log(list)
+
+for(let i=0;i<liste.length;i++)
+{
+
+createOldList(liste[i]);
+
 }
 
 
+}
+
+}
+
+function search(){
+
+}
 
 function createInputTextValue(parentNode,textInputEdit){
 
@@ -108,22 +206,7 @@ parentNode.appendChild(textEl);
 
  }
 
-
-
-
-//  for(let i=0; i<text.length;i++) 
-//     { if ( ( (text[i].value).length!==0) && ( btn1[i].length!==0 ) ) {  
-
-//         let textValue = text[i].value
-
-//     console.log(textValue)
-
-
-// text[i].remove()
-
-
- 
- 
+  
  function createBtnModify(parentNode){
  
      let button=document.createElement('button');
@@ -138,6 +221,32 @@ parentNode.appendChild(textEl);
  
      }
  
+
+ function createBtnDelete(parentNode){
+ 
+     let button=document.createElement('button');
+     button.type='submit';
+     button.addEventListener("click", deletE)
+     button.className='delete'
+     button.innerText="Delete";
+
+ 
+    parentNode.appendChild(button);
+ 
+     }
+
+    function deletE() {
+    
+   let parent=this.parentElement;
+
+   const phrase=parent.children[1]
+
+   deleteLocally(phrase);
+
+   parent.remove();
+    
+    }
+
      function createBtnModifyAfterEditing(parentNode){ // Creating Editing button by using parent Node
  
          let button=document.createElement('button');
@@ -183,9 +292,19 @@ textEl.className='text';
  textEl.value=inputEdit;
 */
 
- parent.innerHTML="";
+if(parent.children[1])
+ parent.children[1].remove()
 
- createCheckBox(parent)
+if(parent.children[1])
+ parent.children[1].remove()
+
+if(parent.children[1])
+ parent.children[1].remove()
+
+
+// parent.innerHTML="";
+
+// createCheckBox(parent)
 
 createInputTextValue(parent,inputEdit)
 
@@ -242,7 +361,8 @@ createInputTextValue(parent,inputEdit)
  let boxes = document.querySelectorAll(".boxx");
  
  let check = document.querySelectorAll(".checks")
- 
+
+this 
  
  for (let i=0;i<boxes.length;i++)
  {
@@ -257,12 +377,37 @@ createInputTextValue(parent,inputEdit)
  
  
  
- 
- 
- function createList() { // Creating a list
+ function createOldList(oneList) { // Creating a list
  
      let container=document.createElement('div');
+          container.className="listes";
      
+     let box=document.createElement('input');
+     box.type='checkbox';
+     box.className='boxx';
+     box.addEventListener("change", barrer)
+ 
+ let  phrase=document.createElement('span');
+     phrase.className='checks';
+     phrase.textContent=oneList;
+
+ 
+ container.appendChild(box);
+ 
+ container.appendChild(phrase);
+ 
+ createBtnModify(container);
+ 
+createBtnDelete(container);
+
+ document.body.appendChild(container); 
+ 
+ } 
+ 
+ function createNewList() { // Creating a list
+ 
+     let container=document.createElement('div');
+     container.className="listes";
      let box=document.createElement('input');
      box.type='checkbox';
      box.className='boxx';
