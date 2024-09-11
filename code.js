@@ -15,7 +15,7 @@ localStorage.clear()
 
 getOldLists();
 
-saveOldList(list)
+saveList(list)
 
  createNewList();
 
@@ -42,7 +42,9 @@ saveOldList(list)
 
 let inputElValue=findPhraseValue(parent);
 
-saveLocally(inputElValue);
+let box=parent.children[0];
+
+//saveOldLocally(inputElValue);
  
  console.log(inputElValue)
  
@@ -81,11 +83,17 @@ if(parent.children[1])
  console.log(parent.children);
 
 
-createCheckBox(parent)
 
+ if(!box.classList.contains("old-box")) 
+    createCheckBox(parent);
+
+
+ if(box.classList.contains("old-box")) 
+    parent.appendChild(box)
 
  parent.appendChild(phrase);
- 
+
+ barrer();
  
  createBtnModify(parent);
 
@@ -98,8 +106,8 @@ createCheckBox(parent)
   if(!this.classList.contains("no-more-list")) 
  createNewList();
 
+  saveAllLocally();
   
-
 }
  
  }
@@ -120,7 +128,7 @@ return inputElValue;
 return text;
 }
 
-function saveLocally (phrase){
+function saveOldLocally (phrase){
 
 
 list.push(phrase)
@@ -128,7 +136,16 @@ list.push(phrase)
 localStorage.setItem( "list", JSON.stringify(list));
 }
 
-function saveOldList (lisT){
+/*
+function  (phrase){
+
+
+list.push(phrase)
+
+localStorage.setItem( "list", JSON.stringify(list));
+}
+*/
+function saveList (lisT){
 lisT=JSON.stringify(lisT)    
     localStorage.setItem( "list",lisT);
     }
@@ -146,21 +163,41 @@ function getOldLists(){
 
 let liste=[];
 
+let phrases=[], boxes=[];
+
 console.log(localStorage.getItem("list"));
+
 
 
 if(localStorage.getItem("list"))
 {
 
+let wholeList=JSON.parse(localStorage.getItem("list"));
 
-let listeJSON=JSON.parse(localStorage.getItem("list"));
+console.log(wholeList);
+/*
+for(let i=0;i<wholeList.length;i++){
+
+//boxes.push(wholeList[i].box);
+
+phrases.push(wholeList[0]);
+}
+*/
+
+boxes = wholeList.map((item => item.box))
+
+phrases=wholeList.map((item => item.phrase));
+
+//const combinedPhrases = wholeList.map(item => item.phrase).join("\n");
+
+console.log(boxes);
+
+console.log(phrases);
+
+let list=phrases;
 
 //let listJSON=JSON.parse(localStorage.getItem("list"));
 
-console.log(listeJSON);
-
-
-list=listeJSON;
 
 liste=list;
 
@@ -169,7 +206,9 @@ console.log(list)
 for(let i=0;i<liste.length;i++)
 {
 
-createOldList(liste[i]);
+createOldList(liste[i], boxes[i]);
+
+barrer();
 
 }
 
@@ -177,6 +216,8 @@ createOldList(liste[i]);
 }
 
 }
+
+function returnPhrase(wholeList){ return wholeList.phrase }
 
 function search(){
 
@@ -275,6 +316,57 @@ parentNode.appendChild(textEl);
          }
           
    
+function saveAllLocally (){
+
+let phrasesEl = document.querySelectorAll(".checks");
+
+let phrases=[];
+
+let boxesEl = document.querySelectorAll(".boxx");
+
+let boxes=[];
+
+let wholeList=[]
+
+if(boxesEl){
+
+for(let i=0;i<phrasesEl.length;i++){
+
+if(phrasesEl[i].textContent!=="")
+{
+ wholeList.push({box:boxesEl[i].checked,
+    phrase:phrasesEl[i].textContent})
+}
+}
+
+}
+
+/*
+console.log(`Les phrases des listes ${phrases}`)
+
+
+console.log(`Les boite a cocher ${boxes}`)
+*/
+
+console.log(wholeList)
+
+
+
+/*
+for(let i=0;i<boxesEl.length;i++){
+
+if(phrasesEl[i].textContent!=="")
+
+
+
+}
+*/
+
+localStorage.setItem( "list", JSON.stringify(wholeList));
+
+
+}
+
          
   function modify(){
      
@@ -284,6 +376,9 @@ let parent=this.parentElement;
 let inputEdit=findPhrase(parent);
 
 console.log(parent.children);
+
+list = list
+
 /*
 const textEl=document.createElement('input')
 textEl.type='text';
@@ -372,19 +467,21 @@ this
   : check[i].style.textDecoration="none"; 
      }
  
- 
+
+     saveAllLocally(); 
  }
  
  
  
- function createOldList(oneList) { // Creating a list
+ function createOldList(oneList, boxState) { // Creating a list
  
      let container=document.createElement('div');
           container.className="listes";
      
      let box=document.createElement('input');
      box.type='checkbox';
-     box.className='boxx';
+     box.className='boxx old-box';
+     box.checked=boxState;
      box.addEventListener("change", barrer)
  
  let  phrase=document.createElement('span');
@@ -403,6 +500,7 @@ createBtnDelete(container);
  document.body.appendChild(container); 
  
  } 
+ {}
  
  function createNewList() { // Creating a list
  
