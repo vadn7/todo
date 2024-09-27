@@ -1,0 +1,14 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "App for creating, deleting, editing todo list with localStorage option",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "vadn7",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
