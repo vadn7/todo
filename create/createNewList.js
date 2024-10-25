@@ -21,6 +21,7 @@ let button=document.createElement('button');
    button.addEventListener("click", save)
    button.className='save'
    button.innerText="OK";
+   button.style.backgroundColor="#66CC66";
 
 container.appendChild(box);
 

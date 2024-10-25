@@ -22,15 +22,6 @@ export function saveAllLocally (){
     
     
     console.log(wholeList)
-    
-    
-    
-    /*
-    for(let i=0;i<boxesEl.length;i++){
-    
-    if(phrasesEl[i].textContent!=="")
-    }
-    */
-    
+        
     localStorage.setItem( "list", JSON.stringify(wholeList));
     }
